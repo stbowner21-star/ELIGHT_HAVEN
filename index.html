@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ELIGHT HAVEN | Luxury Men's Apparel</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                        display: ['Outfit', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            dark: '#08090C',
+                            card: '#12141A',
+                            surface: '#1A1D24',
+                            border: 'rgba(255, 255, 255, 0.08)',
+                            amber: '#F59E0B',
+                            gold: '#D97706',
+                            accent: '#F59E0B'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #08090C;
+            color: #E2E8F0;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            overflow-x: hidden;
+        }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #08090C; }
+        ::-webkit-scrollbar-thumb { background: #1A1D24; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #F59E0B; }
+        .glass-card {
+            background: rgba(18, 20, 26, 0.7);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .glass-nav {
+            background: rgba(8, 9, 12, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        }
+        .gold-glow { box-shadow: 0 0 25px -5px rgba(245, 158, 11, 0.3); }
+        .gold-text-gradient {
+            background: linear-gradient(135deg, #FFF 30%, #F59E0B 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .gold-border-glow:focus {
+            outline: none;
+            border-color: #F59E0B;
+            box-shadow: 0 0 15px rgba(245, 158, 11, 0.25);
+        }
+        .drawer-slide { transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1); }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between selection:bg-brand-amber selection:text-black">
+
+    <!-- TOP ANNOUNCEMENT BAR -->
+    <div class="bg-gradient-to-r from-amber-600 via-yellow-500 to-amber-700 text-black py-2 px-4 text-xs font-bold tracking-widest text-center uppercase flex justify-center items-center gap-2">
+        <span><i class="fa-solid fa-crown mr-1"></i> New Winter Drops live now — Cash On Delivery All Over Bangladesh</span>
+    </div>
+
+    <!-- MAIN NAVBAR -->
+    <header class="glass-nav sticky top-0 z-40 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-4">
+            
+            <!-- Logo -->
+            <a href="#" class="flex items-center gap-2.5 group">
+                <div class="w-11 h-11 rounded-xl overflow-hidden bg-brand-surface border border-amber-500/30 flex items-center justify-center shadow-lg shadow-amber-500/20 group-hover:scale-105 transition-transform">
+                    <img src="https://i.postimg.cc/SjbpQXbm/FB-IMG-1793086428277.jpg" alt="ELIGHT HAVEN Logo" class="w-full h-full object-cover">
+                </div>
+                <span class="font-display font-black text-2xl tracking-widest text-white uppercase group-hover:text-amber-400 transition-colors">
+                    ELIGHT <span class="text-amber-500">HAVEN</span>
+                </span>
+            </a>
+
+            <!-- Search Bar (Desktop) -->
+            <div class="hidden md:flex flex-1 max-w-md mx-8 relative">
+                <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-sm"></i>
+                <input type="text" id="searchInput" oninput="handleSearch()" placeholder="Search Hoodies, Joggers, Sweatshirts..." 
+                    class="w-full bg-brand-surface border border-brand-border text-sm text-white pl-11 pr-4 py-2.5 rounded-full gold-border-glow transition-all placeholder-gray-500">
+            </div>
+
+            <!-- Cart Button -->
+            <div class="flex items-center gap-3 sm:gap-5">
+                <button onclick="toggleCart(true)" class="relative p-2.5 rounded-xl bg-brand-surface border border-brand-border hover:border-amber-500/50 text-white transition-all group">
+                    <i class="fa-solid fa-bag-shopping text-lg group-hover:text-amber-400 transition-colors"></i>
+                    <span id="cartCountBadge" class="absolute -top-1.5 -right-1.5 bg-amber-500 text-black text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center font-display shadow-md shadow-amber-500/30">
+                        0
+                    </span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Search Bar -->
+        <div class="px-4 pb-3 md:hidden">
+            <div class="relative">
+                <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-xs"></i>
+                <input type="text" id="searchInputMobile" oninput="handleSearchMobile()" placeholder="Search streetwear..." 
+                    class="w-full bg-brand-surface border border-brand-border text-xs text-white pl-10 pr-4 py-2 rounded-full gold-border-glow transition-all placeholder-gray-500">
+            </div>
+        </div>
+    </header>
+
+    <!-- STOREFRONT SECTION -->
+    <main id="storefrontView" class="flex-grow">
+        <!-- Hero Section -->
+        <section class="relative min-h-[540px] sm:min-h-[620px] flex items-center justify-center overflow-hidden py-16 px-4">
+            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-amber-500/10 rounded-full blur-[140px] pointer-events-none"></div>
+            <div class="absolute top-0 right-1/4 w-[300px] h-[300px] bg-purple-600/10 rounded-full blur-[120px] pointer-events-none"></div>
+            
+            <div class="relative z-10 max-w-4xl mx-auto text-center space-y-6 flex flex-col items-center">
+                <div class="w-28 h-28 sm:w-32 sm:h-32 rounded-3xl overflow-hidden bg-brand-surface border-2 border-amber-500/40 shadow-2xl shadow-amber-500/20 mb-2 p-1.5">
+                    <img src="https://i.postimg.cc/SjbpQXbm/FB-IMG-1793086428277.jpg" alt="Logo" class="w-full h-full object-cover rounded-2xl">
+                </div>
+
+                <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-brand-surface border border-amber-500/30 text-amber-400 text-xs font-semibold tracking-wider uppercase backdrop-blur-md">
+                    <i class="fa-solid fa-sparkles"></i> 2026 Men's Streetwear Collection
+                </div>
+                <h1 class="font-display font-black text-4xl sm:text-6xl lg:text-7xl tracking-tight text-white uppercase leading-none">
+                    ELEVATE YOUR <br><span class="gold-text-gradient">STREET LUXURY</span>
+                </h1>
+                <p class="text-gray-400 text-sm sm:text-base max-w-2xl mx-auto font-normal leading-relaxed">
+                    Designed for modern aesthetics and supreme comfort. Discover our signature heavyweight Hoodies, relaxed Baggy Joggers, and oversized Sweatshirts.
+                </p>
+                <div class="pt-4 flex flex-wrap justify-center gap-4">
+                    <a href="#catalog" class="px-8 py-4 bg-gradient-to-r from-amber-500 to-amber-600 text-black font-display font-bold text-sm tracking-wider uppercase rounded-xl hover:shadow-lg hover:shadow-amber-500/25 transition-all transform hover:-translate-y-0.5">
+                        Explore Collection <i class="fa-solid fa-arrow-down-long ml-2"></i>
+                    </a>
+                    <button onclick="filterCategory('Hoodie')" class="px-8 py-4 bg-brand-surface border border-brand-border text-white font-display font-bold text-sm tracking-wider uppercase rounded-xl hover:border-amber-500/50 hover:bg-brand-surface/80 transition-all">
+                        Shop Hoodies
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Product Catalog Section -->
+        <section id="catalog" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 border-t border-brand-border/50">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-10">
+                <div>
+                    <h2 class="font-display font-extrabold text-2xl sm:text-3xl text-white tracking-tight uppercase">
+                        OUR <span class="text-amber-500">CATALOG</span>
+                    </h2>
+                    <p class="text-gray-400 text-xs sm:text-sm mt-1">Select category to filter products</p>
+                </div>
+
+                <div class="flex flex-wrap items-center gap-2 sm:gap-3" id="categoryFilterContainer">
+                    <button onclick="filterCategory('All')" data-cat="All" class="cat-pill active px-5 py-2.5 rounded-full text-xs font-bold tracking-wider uppercase transition-all bg-amber-500 text-black shadow-lg shadow-amber-500/20">All Items</button>
+                    <button onclick="filterCategory('Hoodie')" data-cat="Hoodie" class="cat-pill px-5 py-2.5 rounded-full text-xs font-bold tracking-wider uppercase transition-all bg-brand-surface border border-brand-border text-gray-300 hover:text-white hover:border-amber-500/40">Hoodies</button>
+                    <button onclick="filterCategory('Baggy Joggers')" data-cat="Baggy Joggers" class="cat-pill px-5 py-2.5 rounded-full text-xs font-bold tracking-wider uppercase transition-all bg-brand-surface border border-brand-border text-gray-300 hover:text-white hover:border-amber-500/40">Baggy Joggers</button>
+                    <button onclick="filterCategory('Sweatshirt')" data-cat="Sweatshirt" class="cat-pill px-5 py-2.5 rounded-full text-xs font-bold tracking-wider uppercase transition-all bg-brand-surface border border-brand-border text-gray-300 hover:text-white hover:border-amber-500/40">Sweatshirts</button>
+                </div>
+            </div>
+
+            <!-- Products Grid -->
+            <div id="productGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 sm:gap-8"></div>
+
+            <!-- Empty State -->
+            <div id="emptyState" class="hidden text-center py-20 bg-brand-card/40 rounded-3xl border border-brand-border my-8">
+                <i class="fa-solid fa-box-open text-5xl text-gray-600 mb-4"></i>
+                <h3 class="text-xl font-bold text-white font-display">No Products Found</h3>
+                <p class="text-gray-400 text-sm mt-1">Try selecting another category or searching differently.</p>
+                <button onclick="filterCategory('All')" class="mt-4 px-6 py-2.5 bg-brand-surface border border-amber-500/40 text-amber-400 rounded-xl text-xs font-bold uppercase hover:bg-amber-500 hover:text-black transition-all">Reset Filter</button>
+            </div>
+        </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="border-t border-brand-border bg-brand-dark py-12 px-4 sm:px-6 lg:px-8 mt-20">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6 text-center md:text-left">
+            <div>
+                <div class="font-display font-black text-xl text-white tracking-widest uppercase flex items-center justify-center md:justify-start gap-2">
+                    <img src="https://i.postimg.cc/SjbpQXbm/FB-IMG-1793086428277.jpg" alt="Logo" class="w-6 h-6 rounded-md object-cover">
+                    ELIGHT <span class="text-amber-500">HAVEN</span>
+                </div>
+                <p class="text-xs text-gray-500 mt-1">Premium Men's Hoodies, Joggers & Sweatshirts in Bangladesh.</p>
+            </div>
+            <div class="text-xs text-gray-600">&copy; 2026 ELIGHT HAVEN. All rights reserved.</div>
+        </div>
+    </footer>
+
+    <!-- LIVE CHAT WIDGET (NEW) -->
+    <div id="chatWidget" class="fixed bottom-6 left-6 z-50">
+        <button onclick="toggleChatWindow()" class="w-14 h-14 bg-gradient-to-r from-amber-500 to-amber-600 text-black rounded-full shadow-2xl flex items-center justify-center hover:scale-105 transition-all text-xl font-bold">
+            <i class="fa-solid fa-comments"></i>
+        </button>
+
+        <div id="chatWindow" class="hidden absolute bottom-16 left-0 w-80 sm:w-96 glass-card rounded-2xl shadow-2xl border border-brand-border overflow-hidden flex flex-col h-[420px]">
+            <div class="bg-brand-surface p-4 border-b border-brand-border flex justify-between items-center">
+                <div class="flex items-center gap-2">
+                    <div class="w-3 h-3 rounded-full bg-emerald-500 animate-pulse"></div>
+                    <span class="font-display font-bold text-sm text-white">Live Customer Support</span>
+                </div>
+                <button onclick="toggleChatWindow()" class="text-gray-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div id="chatMessages" class="p-4 flex-1 overflow-y-auto space-y-3 text-xs"></div>
+            <form onsubmit="handleSendUserMessage(event)" class="p-3 border-t border-brand-border bg-brand-surface flex gap-2">
+                <input type="text" id="chatInput" placeholder="আপনার মেসেজ লিখুন..." required class="flex-1 bg-brand-card border border-brand-border text-white text-xs px-3 py-2 rounded-xl gold-border-glow">
+                <button type="submit" class="bg-amber-500 text-black px-4 py-2 rounded-xl font-bold text-xs hover:bg-amber-400"><i class="fa-solid fa-paper-plane"></i></button>
+            </form>
+        </div>
+    </div>
+
+    <!-- CART DRAWER -->
+    <div id="cartBackdrop" onclick="toggleCart(false)" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 opacity-0 pointer-events-none transition-opacity duration-300"></div>
+    <aside id="cartDrawer" class="fixed top-0 right-0 h-full w-full max-w-md bg-brand-card border-l border-brand-border z-50 transform translate-x-full drawer-slide flex flex-col justify-between shadow-2xl">
+        <div class="p-6 border-b border-brand-border flex items-center justify-between">
+            <div class="flex items-center gap-2">
+                <i class="fa-solid fa-bag-shopping text-amber-500 text-xl"></i>
+                <h3 class="font-display font-bold text-lg text-white uppercase">Shopping Bag</h3>
+            </div>
+            <button onclick="toggleCart(false)" class="p-2 text-gray-400 hover:text-white transition-colors"><i class="fa-solid fa-xmark text-lg"></i></button>
+        </div>
+        <div id="cartItemsContainer" class="p-6 overflow-y-auto flex-grow space-y-4"></div>
+        <div class="p-6 border-t border-brand-border bg-brand-surface space-y-4">
+            <div class="flex justify-between items-center text-sm">
+                <span class="text-gray-400">Subtotal</span>
+                <span id="cartSubtotal" class="font-bold text-white font-display text-lg">৳ 0</span>
+            </div>
+            <button id="checkoutBtn" onclick="openCheckoutModal()" disabled class="w-full py-4 bg-gradient-to-r from-amber-500 to-amber-600 text-black font-display font-extrabold text-sm tracking-widest uppercase rounded-xl disabled:opacity-50 disabled:cursor-not-allowed hover:shadow-lg hover:shadow-amber-500/25 transition-all">
+                Proceed to Checkout <i class="fa-solid fa-arrow-right ml-1"></i>
+            </button>
+        </div>
+    </aside>
+
+    <!-- QUICK VIEW & SIZE SELECT MODAL -->
+    <div id="quickViewModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md opacity-0 pointer-events-none transition-opacity duration-300">
+        <div class="glass-card w-full max-w-2xl rounded-3xl overflow-hidden relative border border-brand-border shadow-2xl flex flex-col sm:flex-row max-h-[90vh] overflow-y-auto">
+            <button onclick="closeQuickView()" class="absolute top-4 right-4 z-10 w-8 h-8 rounded-full bg-black/60 text-white flex items-center justify-center hover:bg-amber-500 hover:text-black transition-all"><i class="fa-solid fa-xmark"></i></button>
+            <div class="sm:w-1/2 h-64 sm:h-auto relative bg-brand-surface"><img id="qvImage" src="" alt="Product" class="w-full h-full object-cover"></div>
+            <div class="sm:w-1/2 p-6 sm:p-8 flex flex-col justify-between space-y-4">
+                <div>
+                    <span id="qvCategory" class="text-xs font-bold uppercase tracking-widest text-amber-500">CATEGORY</span>
+                    <h2 id="qvTitle" class="font-display font-black text-2xl text-white uppercase mt-1">Product Title</h2>
+                    <div id="qvPrice" class="font-display font-extrabold text-xl text-amber-400 mt-2">৳ 0</div>
+                    <p id="qvDesc" class="text-gray-400 text-xs sm:text-sm mt-3 leading-relaxed">Description goes here...</p>
+                    
+                    <div class="mt-4 pt-3 border-t border-brand-border">
+                        <label class="block text-xs font-bold uppercase tracking-wider text-amber-400 mb-2">Select Size: *</label>
+                        <div class="flex flex-wrap gap-2">
+                            <button type="button" onclick="selectSize('M')" class="size-btn px-4 py-2 rounded-xl bg-brand-surface border border-brand-border text-xs font-bold text-white hover:border-amber-500">M</button>
+                            <button type="button" onclick="selectSize('L')" class="size-btn px-4 py-2 rounded-xl bg-amber-500 text-black border border-amber-500 text-xs font-bold">L</button>
+                            <button type="button" onclick="selectSize('XL')" class="size-btn px-4 py-2 rounded-xl bg-brand-surface border border-brand-border text-xs font-bold text-white hover:border-amber-500">XL</button>
+                            <button type="button" onclick="selectSize('XXL')" class="size-btn px-4 py-2 rounded-xl bg-brand-surface border border-brand-border text-xs font-bold text-white hover:border-amber-500">XXL</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="pt-4 border-t border-brand-border">
+                    <button id="qvAddToCartBtn" class="w-full py-3.5 bg-amber-500 text-black font-display font-bold text-xs uppercase tracking-wider rounded-xl hover:bg-amber-400 transition-all">
+                        Add to Cart <i class="fa-solid fa-plus ml-1"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CHECKOUT MODAL -->
+    <div id="checkoutModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md opacity-0 pointer-events-none transition-opacity duration-300">
+        <div class="glass-card w-full max-w-md rounded-3xl p-6 sm:p-8 relative border border-brand-border shadow-2xl">
+            <button onclick="closeCheckoutModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
+            <div class="mb-6">
+                <span class="text-xs font-bold text-amber-500 uppercase tracking-widest">Cash on Delivery</span>
+                <h2 class="font-display font-black text-2xl text-white uppercase mt-1">Complete Order</h2>
+            </div>
+            <form onsubmit="handlePlaceOrder(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-bold uppercase tracking-wider text-gray-300 mb-1">Full Name</label>
+                    <input type="text" id="orderName" required placeholder="e.g. Tanvir Ahmed" class="w-full bg-brand-surface border border-brand-border text-xs text-white px-4 py-3 rounded-xl gold-border-glow">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold uppercase tracking-wider text-gray-300 mb-1">Phone Number</label>
+                    <input type="tel" id="orderPhone" required placeholder="017XXXXXXXX" class="w-full bg-brand-surface border border-brand-border text-xs text-white px-4 py-3 rounded-xl gold-border-glow">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold uppercase tracking-wider text-gray-300 mb-1">Delivery Address</label>
+                    <textarea id="orderAddress" required rows="2" placeholder="House no, Road, Area, City" class="w-full bg-brand-surface border border-brand-border text-xs text-white px-4 py-3 rounded-xl gold-border-glow"></textarea>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold uppercase tracking-wider text-gray-300 mb-1">Delivery Area</label>
+                    <select id="deliveryArea" onchange="updateCheckoutTotal()" class="w-full bg-brand-surface border border-brand-border text-xs text-white px-3 py-3 rounded-xl gold-border-glow">
+                        <option value="80">ঢাকার ভেতরে (Delivery Charge: ৳ 80)</option>
+                        <option value="150">ঢাকার বাইরে (Delivery Charge: ৳ 150)</option>
+                    </select>
+                </div>
+                <div class="p-3 rounded-xl bg-amber-500/10 border border-amber-500/30 text-xs text-amber-300 flex justify-between items-center">
+                    <span><i class="fa-solid fa-truck-fast mr-1"></i> Total Payable:</span>
+                    <span id="checkoutTotalDisplay" class="font-bold font-display text-sm">৳ 0</span>
+                </div>
+                <button type="submit" class="w-full py-4 bg-gradient-to-r from-amber-500 to-amber-600 text-black font-display font-extrabold text-sm tracking-widest uppercase rounded-xl hover:shadow-lg hover:shadow-amber-500/25 transition-all">
+                    Confirm Order <i class="fa-solid fa-check-circle ml-1"></i>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- NOTIFICATION TOAST -->
+    <div id="toast" class="fixed bottom-6 right-6 z-50 translate-y-20 opacity-0 transition-all duration-300 pointer-events-none">
+        <div class="px-5 py-3.5 rounded-2xl bg-brand-surface border border-amber-500/40 text-white text-xs font-bold shadow-2xl flex items-center gap-3">
+            <i class="fa-solid fa-circle-check text-amber-500 text-base"></i>
+            <span id="toastMsg">Product added to cart!</span>
+        </div>
+    </div>
+
+    <!-- SCRIPT -->
+    <script type="module" src="app.js"></script>
+</body>
+</html>
