@@ -1,0 +1,57 @@
+body {
+    background-color: #08090C;
+    color: #E2E8F0;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    overflow-x: hidden;
+}
+
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #08090C;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #1A1D24;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #F59E0B;
+}
+
+.glass-card {
+    background: rgba(18, 20, 26, 0.7);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.glass-nav {
+    background: rgba(8, 9, 12, 0.85);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.gold-glow {
+    box-shadow: 0 0 25px -5px rgba(245, 158, 11, 0.3);
+}
+
+.gold-text-gradient {
+    background: linear-gradient(135deg, #FFF 30%, #F59E0B 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.gold-border-glow:focus {
+    outline: none;
+    border-color: #F59E0B;
+    box-shadow: 0 0 15px rgba(245, 158, 11, 0.25);
+}
+
+.drawer-slide {
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
