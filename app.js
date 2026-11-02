@@ -73,32 +73,35 @@ window.handleSendUserMessage = function(e) {
     }
 };
 
-let defaultProducts = [
-    { id: '1', title: 'Nocturnal Cyber Fleece Hoodie', price: 2650, category: 'Hoodie', image: 'https://images.unsplash.com/photo-1556905055-8f358a7a47b2?auto=format&fit=crop&w=800&q=80', description: 'Heavyweight 420 GSM French Terry Cotton hoodie.' },
-    { id: '2', title: 'Heavyweight Phantom Joggers', price: 1950, category: 'Baggy Joggers', image: 'https://images.unsplash.com/photo-1552902865-b72c031ac5ea?auto=format&fit=crop&w=800&q=80', description: 'Ultra-baggy Japanese streetwear silhouette.' },
-    { id: '3', title: 'Aura Oversized Sweatshirt', price: 2200, category: 'Sweatshirt', image: 'https://images.unsplash.com/photo-1578587018452-892bacefd3f2?auto=format&fit=crop&w=800&q=80', description: 'Minimalist luxury crewneck sweatshirt.' }
-];
-
+// ফায়ারবেস থেকে রিয়েল-টাইমে প্রোডাক্ট ফেচ করার আপডেট করা লজিক
 const productsRef = ref(db, 'products');
 onValue(productsRef, (snapshot) => {
     const data = snapshot.val();
     if (data) {
         products = Object.keys(data).map(key => ({ id: key, ...data[key] }));
     } else {
-        defaultProducts.forEach(p => { set(ref(db, 'products/' + p.id), p); });
-        products = defaultProducts;
+        products = [];
     }
     renderProducts();
 });
 
 window.renderProducts = function() {
     const grid = document.getElementById('productGrid');
+    const emptyState = document.getElementById('emptyState');
     grid.innerHTML = '';
+
     const filtered = products.filter(p => {
         const matchesCat = activeCategory === 'All' || p.category === activeCategory;
-        const matchesSearch = p.title.toLowerCase().includes(searchQuery.toLowerCase());
+        const matchesSearch = p.title && p.title.toLowerCase().includes(searchQuery.toLowerCase());
         return matchesCat && matchesSearch;
     });
+
+    if (filtered.length === 0) {
+        emptyState.classList.remove('hidden');
+        return;
+    } else {
+        emptyState.classList.add('hidden');
+    }
 
     filtered.forEach(p => {
         const card = document.createElement('div');
@@ -111,7 +114,7 @@ window.renderProducts = function() {
             <div class="p-5 flex flex-col flex-grow justify-between space-y-4">
                 <div>
                     <h3 onclick="openQuickView('${p.id}')" class="font-display font-bold text-base text-white group-hover:text-amber-400 cursor-pointer line-clamp-1">${p.title}</h3>
-                    <p class="text-xs text-gray-400 mt-1 line-clamp-2">${p.description}</p>
+                    <p class="text-xs text-gray-400 mt-1 line-clamp-2">${p.description || ''}</p>
                 </div>
                 <div class="flex items-center justify-between pt-2 border-t border-brand-border">
                     <div>
@@ -132,9 +135,9 @@ window.filterCategory = function(cat) {
     activeCategory = cat;
     document.querySelectorAll('.cat-pill').forEach(btn => {
         if (btn.getAttribute('data-cat') === cat) {
-            btn.className = "cat-pill active px-5 py-2.5 rounded-full text-xs font-bold tracking-wider uppercase transition-all bg-amber-500 text-black";
+            btn.className = "cat-pill active px-5 py-2.5 rounded-full text-xs font-bold tracking-wider uppercase transition-all bg-amber-500 text-black shadow-lg shadow-amber-500/20";
         } else {
-            btn.className = "cat-pill px-5 py-2.5 rounded-full text-xs font-bold tracking-wider uppercase transition-all bg-brand-surface border border-brand-border text-gray-300";
+            btn.className = "cat-pill px-5 py-2.5 rounded-full text-xs font-bold tracking-wider uppercase transition-all bg-brand-surface border border-brand-border text-gray-300 hover:text-white hover:border-amber-500/40";
         }
     });
     renderProducts();
@@ -154,7 +157,7 @@ window.openQuickView = function(id) {
     document.getElementById('qvCategory').innerText = p.category;
     document.getElementById('qvTitle').innerText = p.title;
     document.getElementById('qvPrice').innerText = `৳ ${p.price}`;
-    document.getElementById('qvDesc').innerText = p.description;
+    document.getElementById('qvDesc').innerText = p.description || '';
 
     highlightSizeButton(selectedSize);
 
